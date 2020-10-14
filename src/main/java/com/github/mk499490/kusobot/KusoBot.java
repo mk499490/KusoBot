@@ -130,7 +130,7 @@ public class KusoBot {
             String word = tweetWord[1];
 
             // ツイート
-            Status status = twitter.updateStatus("test" + word);
+            Status status = twitter.updateStatus("このクソ" + word + "！！！");
             System.out.println("Successfully updated the status to [" + status.getText() + "].");
 
             //propertiesのlastword書き換え
@@ -143,6 +143,7 @@ public class KusoBot {
             } catch (IOException e) {
                 System.err.println("Failed to rewrite lastword.properties!");
                 e.printStackTrace();
+                System.exit(-1);
             }
 
         } catch (TwitterException te) {
