@@ -23,8 +23,8 @@ public class KusoBot {
             ●辞書ファイル読み込み
             ・txtファイルかcsvファイルにログ出力(ツイート日、ツイートする単語の行、結果(成功、成功(アルファベット→カタカナ)、失敗、スルー)、ツイートID)
             ●最後にツイートした言葉をpropertiesファイルかなにかに記録(行番号だけ)
-            ・APIキーとかをpropertiesファイルに記録(setup引数つけたら設定できる)
-            ・単語重複回避(一つ上の言葉とかぶってたらスルー)
+            ●APIキーとかをpropertiesファイルに記録
+            ●単語重複回避(一つ上の言葉とかぶってたらスルー)
             ・英単語はカタカナで(E列がアルファベットならA列のをツイート)
          */
 
@@ -123,10 +123,20 @@ public class KusoBot {
                 }
             }
 
-            // 単語選定
+            // 単語選定。直前のやつと重複しないかどうか確認して、重複してたらスルー。
             String[] tweetWord = new String[2];
+            String[] tweetedWord = new String[2];
+
             tweetWord = words.get(lastWord + 1).split(",");
-            System.out.println("Tweeted word will be: " + tweetWord[1]);
+            tweetedWord = words.get(lastWord).split(",");
+
+            while (tweetWord[1].equals(tweetedWord[1])) {
+                lastWord++;
+                tweetWord = words.get(lastWord + 1).split(",");
+                tweetedWord = words.get(lastWord).split(",");
+            }
+
+            System.out.println("Following word will be tweeted: " + tweetWord[1]);
             String word = tweetWord[1];
 
             // ツイート
